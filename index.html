@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio - Menu Burger et Mode Nuit</title>
+    <!-- Intégration de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Intégration de Google Fonts (Raleway) -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+    transition: 0.8s;
+}
+
+body {
+    background-color: #d4d9d9;
+    overflow-x: hidden;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* Menu Burger */
+#menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: transparent;
+    border: none;
+    font-size: 25px;
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-burger {
+    background-color: rgba(255, 255, 255, 0.7);
+    min-height: 100vh;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 18%;
+    z-index: 1000;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    transition: background-color 0.8s ease, backdrop-filter 0.8s ease, transform 0.5s ease;
+    transform: translateX(-100%);
+}
+
+.menu-visible {
+    transform: translateX(0);
+}
+
+.menu-burger ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.menu-burger ul li {
+    margin: 20px 0;
+}
+
+.menu-burger ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.menu-burger ul li a:hover {
+    color: #3498db;
+}
+
+#close-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 25px;
+    color: black;
+    cursor: pointer;
+    transition: color 0.5s ease;
+}
+
+/* Titre */
+.title {
+    padding: 20px;
+    font-size: 2vw;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    width: 100%;
+    transition: color 0.3s ease;
+}
+
+/* Image header panoramique avec bords arrondis et ombre */
+.header-image {
+    width: 90%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bouton mode nuit/jour */
+.night-mode-toggle {
+    background-color: #add8e6;
+    border: solid 2px #add8e6;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    text-align: center;
+    line-height: 46px;
+    font-size: 20px;
+    color: white;
+    margin-bottom: 30px;
+    transition: background-color 0.5s ease;
+}
+
+.night-mode.day-mode {
+    background-color: #87CEEB;
+    border: solid 2px #87CEEB;
+}
+
+/* Mode nuit */
+.night-mode .menu-burger {
+    background-color: rgba(44, 62, 80, 0.7) !important;
+    backdrop-filter: blur(8px);
+}
+
+.night-mode {
+    background-color: #2c3e50 !important;
+    color: white !important;
+}
+
+.night-mode a {
+    color: white !important;
+}
+
+.night-mode .menu-burger ul li a:hover {
+    color: #3498db;
+}
+
+.night-mode #menu-toggle,
+.night-mode #close-menu {
+    color: white !important;
+}
+
+.night-mode .title {
+    color: white !important;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .menu-burger {
+        width: 60%;
+    }
+    .title {
+        font-size: 4vw;
+    }
+    .header-image {
+        width: 100%;
+    }
+    #menu-toggle {
+        top: 20px;
+        left: 20px;
+    }
+}
+
+/* --- SECTION 2 : COMPETENCES & PRESENTATION --- */
+
+/* Texte de présentation */
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Barres de progression */
+.progress-bar {
+    background-color: #3498db;
+    border-radius: 10px;
+    transition: width 0.5s ease, background-color 0.3s ease;
+}
+
+.progress {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    height: 10px;
+}
+
+/* Hover sur les barres de progression */
+.progress:hover .progress-bar {
+    background-color: #2980b9;
+}
+
+/* --- MODE NUIT --- */
+.night-mode h2,
+.night-mode p {
+    color: #ecf0f1;
+}
+
+.night-mode .progress-bar {
+    background-color: #2980b9;
+}
+
+.night-mode .progress {
+    background-color: #34495e;
+}
+
+/* Animation des barres de progression */
+.progress-bar {
+    background-color: #3498db;
+    border-radius: 10px;
+    height: 10px;
+    width: 0%;
+    transition: width 2s ease;
+}
+
+.progress-bar::after {
+    content: attr(data-target) "%";
+    position: absolute;
+    right: 10px;
+    top: -20px;
+    color: black;
+    transition: none;
+}
+
+/* Style du bouton Télécharger CV */
+.btn-cv {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 15px;
+    font-size: 14px;
+    width: 50%;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cv:hover {
+    background-color: #2980b9;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style général pour toutes les cartes */
+.card {
+    width: 80%; /* Largeur similaire pour toutes les cartes */
+    margin: 20px auto;
+    background-color: #d4d9d9; /* Fond similaire */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Légère ombre */
+    overflow: hidden;
+    padding: 15px;
+    transition: background-color 0.5s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    height: 350px; /* Hauteur ajustée pour les deux cartes */
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: black;
+}
+
+.card .btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.night-mode .card {
+    background-color: #34495e; /* Couleur assortie pour le mode nuit */
+}
+
+.card .btn:hover {
+    background-color: #2980b9;
+}
+/* Fenêtre modale (cachée par défaut) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 25%;
+    width: 100%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.7); /* Couche sombre derrière la modale */
+    justify-content: center;
+    align-items: center; /* Centre verticalement la modale */
+    padding-top: 30%; /* Supprime le padding pour centrer correctement */
+    transition: backdrop-filter 0.5s ease;
+}
+
+/* Contenu de la fenêtre modale pour le mode jour */
+.modal-content {
+    background-color: #d4d9d9; /* Fond jour */
+    color: black; /* Texte noir pour le mode jour */
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%; /* Largeur pour bien occuper l'écran */
+    min-width: 300px; /* Largeur minimale pour petits écrans */
+    max-width: 800px; /* Largeur maximale pour les écrans larges */
+    max-height: 70%; /* Hauteur maximale de la modale */
+    overflow-y: auto; /* Permet le scroll uniquement dans la modale si le contenu dépasse */
+    position: relative;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Contenu de la fenêtre modale pour le mode nuit */
+.night-mode .modal-content {
+    background-color: #2c3e50; /* Fond sombre pour le mode nuit */
+    color: white; /* Texte blanc pour le mode nuit */
+}
+
+/* Style de la croix de fermeture */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #2980b9;
+    border: none;
+    padding: 5px;
+    z-index: 1000;
+    outline: none; /* Supprime le contour bleu */
+}
+
+/* Supprime l'effet du contour bleu autour de la croix lorsqu'elle est cliquée */
+.close:focus {
+    outline: none; /* Désactive l'effet de contour bleu sur le focus */
+}
+
+/* Effet blur sur l'arrière-plan lorsque la modale est ouverte */
+body.modal-open {
+    overflow: hidden; /* Empêche le scroll de la page principale */
+    backdrop-filter: blur(8px); /* Applique l'effet de flou */
+}
+
+/* Fermer la modale en cliquant à l'extérieur */
+body.modal-open::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Couche sombre derrière la modale */
+    z-index: 999; /* Assure que l'arrière-plan est sous la modale */
+    backdrop-filter: blur(8px); /* Applique le flou */
+}
+
+/* Ajustement de la taille des titres dans la modale */
+.modal-content h1, .modal-content h2, .modal-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+/* Pour le texte en mode nuit dans les titres */
+.night-mode .modal-content h3 {
+    color: white;
+}
+/* Style de la section contact (mode jour) */
+.contact-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background-color: #d4d9d9; /* Fond clair pour le mode jour */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+}
+
+/* Mode nuit pour la section contact */
+.night-mode .contact-section {
+    background-color: #2c3e50; /* Fond sombre pour le mode nuit */
+}
+
+/* Style des éléments de contact */
+.contact-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem; /* Garde le texte noir pour le mode jour */
+    color: #2980b9 !important;
+}
+
+/* Mode nuit: couleur du texte inchangée */
+.night-mode .contact-item {
+    color: #2980b9 !important; /* Texte blanc en mode nuit */
+}
+
+/* Style des icônes de contact */
+.contact-icon {
+    width: 30px; /* Taille des icônes */
+    margin-right: 10px; /* Espacement entre l'icône et le texte */
+}
+
+/* Style des liens de contact (inchangé pour jour et nuit) */
+.contact-item a {
+    text-decoration: none;
+    color: #2980b9 !important; /* Couleur bleue inchangée pour le mode jour et nuit */
+    transition: color 0.3s ease;
+}
+
+/* Effet hover sur les liens */
+.contact-item a:hover {
+    color: #1abc9c; /* Couleur de hover */
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Bouton pour ouvrir le menu -->
+    <button id="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Menu Burger -->
+            <nav class="col-12 col-md-3 menu-burger" id="menu">
+                <!-- Bouton mode nuit/jour -->
+                <button class="night-mode-toggle" id="night-toggle" onclick="toggleNightMode()">🌙</button>
+                <button id="close-menu" onclick="toggleMenu()">X</button>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Compétences</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Contenu principal avec image -->
+            <div class="col-12">
+                <div class="title">
+                    Transformez vos idées en réalité digitale avec un développement sur mesure
+                </div>
+                <!-- Grande Image panoramique -->
+                <img src="img/ordinateur.jpg" alt="Ordinateur" class="header-image">
+            </div>
+        </div>
+    </div>
+    <section class="container my-5">
+        <div class="row">
+            <!-- Colonne de présentation -->
+            <div class="col-md-6">
+                <h2>À propos de moi</h2>
+                <p>
+                    Passionnée par la programmation et l'UX/UI depuis ma première expérience dans la création d'une boutique en ligne, j'ai entrepris une reconversion professionnelle. Après plusieurs projets, j'ai consolidé mes compétences en développement web et en design numérique. Patiente, rigoureuse et déterminée, je souhaite mettre mon savoir-faire au service d'une entreprise innovante. <br>
+
+                    Mon objectif est de devenir experte en développement web full stack et de contribuer à des projets ambitieux. Actuellement en deuxième année de bachelor en développement web à Ada School, je suis à la recherche d'une alternance pour l'année 2024-2025 afin de perfectionner mes compétences et participer activement à la réussite de vos projets.
+                </p>
+                <a href="cv_medina.zip" download class="btn btn-cv">Télécharger mon CV</a>
+            </div>
+    
+            <div class="col-md-6">
+                <h2>Compétences</h2>
+            
+                <p>HTML</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="90" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            
+                <p>CSS</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="80" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            
+                <p>JavaScript</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="70" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            
+                <p>PHP</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="80" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            
+                <p>WordPress</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="90" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            
+                <p>Figma</p>
+                <div class="progress">
+                    <div class="progress-bar" data-target="90" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </div>
+
+            <div class="container portfolio">
+                <h2>Mon Portfolio</h2>
+                <div class="row">
+                    <!-- Carte de projet 1 -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <img src="img/projet1.jpg" class="card-img-top" alt="Projet Lokisalle">
+                            <div class="card-body">
+                                <h5 class="card-title">Lokisalle</h5>
+                                <p class="card-text">Lokisalle est une plateforme web de réservation de salles de réunion.</p>
+                                <button class="btn btn-primary" onclick="openModal('projet1')">En savoir plus</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte Projet 2: Présentation du portfolio -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <img src="img/projet2.jpg" class="card-img-top" alt="Présentation du Portfolio">
+                            <div class="card-body">
+                                <h5 class="card-title">Portfolio Web</h5>
+                                <p class="card-text">Ce site web est un portfolio personnel conçu pour présenter mes compétences en développement web.</p>
+                                <button class="btn btn-primary" onclick="openModal('portfolio')">En savoir plus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- Fenêtre modale pour le projet Lokisalle -->
+<div id="modal-projet1" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('projet1')">&times;</span>
+        <h3>Présentation du projet Lokisalle</h3>
+        
+        <p>
+            Lokisalle est une plateforme web dédiée à la réservation de salles de réunion. Le site permet aux utilisateurs de rechercher, filtrer et réserver des salles selon différents critères comme la ville, le prix, la capacité et la disponibilité. Un espace membre est également prévu pour gérer les informations personnelles, suivre les réservations passées et futures, et laisser des avis sur les salles. 
+        </p>
+
+        <p>
+            Les administrateurs disposent d'un tableau de bord complet pour gérer les salles, les avis, les réservations et accéder aux statistiques des salles les plus populaires.
+        </p>
+
+        <h4>Technologies utilisées :</h4>
+        <ul>
+            <li><strong>Front-end</strong> : HTML5, CSS3, Bootstrap pour un design moderne et responsive.</li>
+            <li><strong>Back-end</strong> : PHP et MySQL pour la gestion des données, des utilisateurs, des réservations et des avis.</li>
+            <li><strong>Sécurité</strong> : Gestion des sessions et des rôles (utilisateur et administrateur) pour sécuriser les accès.</li>
+        </ul>
+
+        <p>
+            Ce projet a pour objectif de répondre aux besoins des entreprises et des particuliers à la recherche d'espaces de travail flexibles et faciles à réserver.
+        </p>
+    </div>
+</div>
+
+
+            <!-- Fenêtre modale pour le Portfolio Web -->
+<div id="modal-portfolio" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('portfolio')">&times;</span>
+        <h3>Mon Portfolio Web</h3>
+        <p>
+            Ce portfolio a été conçu pour présenter mes compétences en développement web ainsi que les projets sur lesquels j'ai travaillé. J'ai voulu créer un espace simple, moderne et élégant qui reflète mon approche du développement et du design.
+        </p>
+
+        <h4>Technologies et langages utilisés :</h4>
+        <ul>
+            <li><strong>HTML5</strong> : J'ai utilisé HTML pour structurer le site de manière claire et ordonnée.</li>
+            <li><strong>CSS3</strong> : Le style et l'esthétique du site sont entièrement réalisés en CSS, avec des animations fluides et un design responsive.</li>
+            <li><strong>Bootstrap</strong> : J'ai intégré Bootstrap pour faciliter la création d'une mise en page responsive, afin que le site s'adapte parfaitement à tous les écrans (ordinateur, tablette, mobile).</li>
+            <li><strong>JavaScript</strong> : JavaScript me permet d'ajouter des fonctionnalités interactives, comme le mode nuit/jour et les fenêtres modales pour afficher plus d'informations sur chaque projet.</li>
+            <li><strong>Figma</strong> : Avant de coder, j'ai réalisé une maquette sur Figma pour avoir une idée claire du rendu final et mieux organiser le design.</li>
+        </ul>
+
+        <h4>Fonctionnalités principales :</h4>
+        <ul>
+            <li><strong>Mode Nuit/Jour</strong> : J'ai inclus un basculement entre les modes clair et sombre, pour offrir une meilleure expérience utilisateur et permettre de choisir l'apparence qui convient le mieux.</li>
+            <li><strong>Menu Burger</strong> : J'ai intégré un menu burger pour rendre la navigation intuitive, même sur les petits écrans.</li>
+            <li><strong>Fenêtre modale</strong> : Chaque projet dispose d'une fenêtre modale qui s'ouvre pour afficher les détails, sans quitter la page principale.</li>
+            <li><strong>Responsive Design</strong> : Tout le site est conçu pour s'adapter automatiquement à différents types d'appareils, pour que l'expérience soit agréable sur ordinateur comme sur mobile.</li>
+        </ul>
+
+        <p>
+            J'ai voulu que ce portfolio soit à la fois un outil pratique pour moi, afin de présenter mes projets, et une démonstration de ce que je suis capable de réaliser en termes de développement web. Chaque section a été pensée avec soin pour offrir une navigation fluide et intuitive, tout en mettant en avant mes compétences.
+        </p>
+    </div>
+</div>
+<!-- Section de contact -->
+<div class="contact-section">
+    <div class="contact-item">
+        <img src="img/icon_phone.png" alt="Icon Phone" class="contact-icon">
+        <a href="tel:0782757916">Phone: 07.82.75.79.16</a>
+    </div>
+    <div class="contact-item">
+        <img src="img/icon_email.png" alt="Icon Email" class="contact-icon">
+        <a href="mailto:medina.bllrt@gmail.com">Email: medina.bllrt@gmail.com</a>
+    </div>
+    <div class="contact-item">
+        <img src="img/icon_linkedin.png" alt="Icon LinkedIn" class="contact-icon">
+        <a href="www.linkedin.com/in/medina-bouillart" target="_blank">LinkedIn: Médina Bouillart</a>
+    </div>
+</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fonction pour afficher/masquer le menu burger
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const menuToggle = document.getElementById('menu-toggle');
+
+            if (!menu.classList.contains('menu-visible')) {
+                menu.classList.add('menu-visible');
+                menuToggle.style.display = 'none';
+            } else {
+                menu.classList.remove('menu-visible');
+                menuToggle.style.display = 'block';
+            }
+        }
+
+        // Fonction pour mode nuit/jour
+        function toggleNightMode() {
+            const body = document.body;
+            const nightToggle = document.getElementById('night-toggle');
+
+            body.classList.toggle('night-mode');
+
+            if (body.classList.contains('night-mode')) {
+                nightToggle.innerHTML = "☀️";
+                nightToggle.classList.add('day-mode');
+            } else {
+                nightToggle.innerHTML = "🌙";
+                nightToggle.classList.remove('day-mode');
+            }
+        }
+
+        // Fonction pour animer les barres de progression
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+
+    progressBars.forEach(bar => {
+        const target = parseInt(bar.getAttribute('data-target'));
+        let currentProgress = 0;
+
+        const interval = setInterval(() => {
+            currentProgress++;
+            bar.style.width = currentProgress + "%";
+            bar.innerHTML = currentProgress + "%";
+
+            if (currentProgress >= target) {
+                clearInterval(interval); // Arrête l'animation quand le % cible est atteint
+            }
+        }, 20); // Vitesse de l'incrémentation
+    });
+}
+
+// Appel de la fonction pour lancer l'animation
+window.onload = animateProgressBars;
+
+function openModal(projectId) {
+    document.getElementById('modal-' + projectId).style.display = 'flex';
+}
+
+function closeModal(projectId) {
+    document.getElementById('modal-' + projectId).style.display = 'none';
+}
+
+// Fonction pour ouvrir la modale
+function openModal(projectId) {
+    const modal = document.getElementById('modal-' + projectId);
+    modal.style.display = 'flex';  // Affiche la modale sélectionnée
+    document.body.classList.add('modal-open');  // Empêche le scroll en arrière-plan
+}
+
+// Fonction pour fermer la modale
+function closeModal(projectId) {
+    const modal = document.getElementById('modal-' + projectId);
+    modal.style.display = 'none';  // Cache la modale
+    document.body.classList.remove('modal-open');  // Réactive le scroll
+}
+
+// Fermer la modale en cliquant à l'extérieur
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';  // Cache la modale si on clique à l'extérieur
+            document.body.classList.remove('modal-open');  // Réactive le scroll
+        }
+    });
+};
+
+
+    </script>
+</body>
+</html>
